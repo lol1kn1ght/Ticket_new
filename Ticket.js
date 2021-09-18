@@ -1,15 +1,15 @@
 const Discord = require("discord.js");
-const { Intents } = require("discord.js");
-const { REST } = require("@discordjs/rest");
-const { Routes } = require("discord-api-types/v9");
+const {Intents} = require("discord.js");
+const {REST} = require("@discordjs/rest");
+const {Routes} = require("discord-api-types/v9");
 const config = require("./config/config.json");
-const { token } = require("./config/token.json");
+const {token} = require("./config/token.json");
 const Mongo = require("mongodb");
-const { promisify } = require("util");
+const {promisify} = require("util");
 const f = require("./config/modules");
 const fs = require("fs");
 const Client = new Discord.Client({
-  intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS],
+  intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS]
 });
 
 class Bot_builder {
@@ -37,7 +37,7 @@ class Bot_builder {
     let readdir = promisify(fs.readdir);
 
     let commands_dir = await readdir("./commands");
-    let commands = commands_dir.filter((command_file) =>
+    let commands = commands_dir.filter(command_file =>
       command_file.endsWith(".js")
     );
 
@@ -62,7 +62,7 @@ class Bot_builder {
     let readdir = promisify(fs.readdir);
 
     let events_dir = await readdir("./events");
-    let events = events_dir.filter((event_file) => event_file.endsWith(".js"));
+    let events = events_dir.filter(event_file => event_file.endsWith(".js"));
 
     let step = this.percent(events.length, "Евенты");
 
@@ -74,12 +74,7 @@ class Bot_builder {
 
         this.bot.on(
           event_name,
-          event.bind(null, {
-            commands: this.commands,
-            config: this.config,
-            f: f,
-            test: 10,
-          })
+          event.bind(null, {commands: this.commands, config: this.config, f: f})
         );
       } catch (e) {
         console.log(`Ошибка в евенте ${event_name}:`);
@@ -93,15 +88,15 @@ class Bot_builder {
     let P = ["\\", "|", "/", "-"];
     let x = 0;
     return {
-      _timer_interval: setInterval(function () {
+      _timer_interval: setInterval(function() {
         process.stdout.write("\r" + P[x++]);
         x &= 3;
       }, 250),
-      stop: function (params) {
+      stop: function(params) {
         clearInterval(this._timer_interval);
 
         process.stdout.write("\rЗагрузка прошла успешно!\n");
-      },
+      }
     };
   }
 
