@@ -30,7 +30,7 @@ module.exports = function(args, interaction) {
       if (options.custom_perms && options.custom_perms[0]) {
         if (
           options.custom_perms.includes("OWNER") &&
-          !this.interaction.member.id !== this.config.owner
+          this.interaction.member.id !== this.config.owner
         )
           return this.noPermissions();
       }
@@ -40,6 +40,8 @@ module.exports = function(args, interaction) {
         this.interaction.member.id !== this.config.owner
       )
         return this.noChannel(options.channels);
+
+      let command_args = this.interaction;
 
       command.execute();
     }
