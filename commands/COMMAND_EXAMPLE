@@ -6,8 +6,12 @@ class Command extends Command_template {
     Object.assign(this, args);
 
     this.options = {
-      name: "COMMAND_NAME",
-      description: "COMMAND_DESCRIPTION",
+      permissions: [],
+      custom_perms: [],
+      slash: {
+        name: "COMMAND_NAME",
+        description: "COMMAND_DESCRIPTION",
+      }
     };
   }
 
