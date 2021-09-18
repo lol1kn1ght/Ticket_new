@@ -6,7 +6,8 @@ class Command extends Command_template {
     Object.assign(this, args);
 
     this.options = {
-      permissions: ["ADMINISTRATOR"],
+      permissions: [],
+      channels: ["742776483944071169"],
       custom_perms: ["OWNER"],
       slash: {
         name: "test",
