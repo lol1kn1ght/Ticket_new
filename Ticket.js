@@ -49,7 +49,7 @@ class Bot_builder {
       try {
         let command = require(`./commands/${command_file}`);
 
-        this.commands[command_name] = command_name;
+        this.commands[command_name] = command;
       } catch (e) {
         console.log(`Ошибка в команде ${command_name}:`);
         console.log(e);
@@ -74,7 +74,12 @@ class Bot_builder {
 
         this.bot.on(
           event_name,
-          event.bind(null, { config: this.config, f: f, test: 10 })
+          event.bind(null, {
+            commands: this.commands,
+            config: this.config,
+            f: f,
+            test: 10,
+          })
         );
       } catch (e) {
         console.log(`Ошибка в евенте ${event_name}:`);
