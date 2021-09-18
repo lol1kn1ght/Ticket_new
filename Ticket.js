@@ -18,6 +18,7 @@ class Bot_builder {
     this.Mongo = Mongo;
     this.config = config;
     this.commands = {};
+    this.slash = [];
     this._launch();
   }
 
@@ -30,6 +31,7 @@ class Bot_builder {
 
     await this._login();
 
+    await this._load_slash();
     timer.stop();
   }
 
@@ -47,9 +49,11 @@ class Bot_builder {
       let command_name = command_file.replace(".js", "");
 
       try {
-        let command = require(`./commands/${command_file}`);
+        let Command = require(`./commands/${command_file}`);
 
-        this.commands[command_name] = command;
+        this.commands[command_name] = Command;
+
+        this.slash.push(new Command().options?.slash);
       } catch (e) {
         console.log(`Ошибка в команде ${command_name}:`);
         console.log(e);
@@ -81,6 +85,26 @@ class Bot_builder {
         console.log(e);
       }
       step();
+    }
+  }
+
+  async _load_slash() {
+    let rest = new REST({version: "9"}).setToken(token);
+
+    try {
+      console.log(this.slash);
+      console.log("Начал загрузку /-команд.");
+      await rest.put(
+        Routes.applicationGuildCommands(this.bot.user.id, config.slash_guild),
+        {
+          body: this.slash
+        }
+      );
+
+      console.log("Успешно загрузил /-команды.");
+    } catch (error) {
+      console.log("Ошибка при загрузке /-команд:");
+      console.error(error.rawError.errors["0"]);
     }
   }
 
