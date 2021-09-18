@@ -11,6 +11,8 @@ module.exports = function(args, interaction) {
       let Command = this.commands[this.interaction.commandName];
 
       if (!Command) return;
+
+      args.command_args = this.interaction.options.data || [];
       let command = new Command(args, this.interaction);
       let options = command.options;
 
@@ -40,8 +42,6 @@ module.exports = function(args, interaction) {
         this.interaction.member.id !== this.config.owner
       )
         return this.noChannel(options.channels);
-
-      let command_args = this.interaction;
 
       command.execute();
     }
