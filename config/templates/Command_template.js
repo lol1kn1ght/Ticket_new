@@ -18,6 +18,11 @@ module.exports = class Command_template {
     return this._send(embedTrue, options);
   }
 
+  msgH(embed_text, options = {}) {
+    options.ephemeral = true;
+    this.msg(embed_text, options);
+  }
+
   msgFalse(embed_text, options) {
     let embedFalse = new MessageEmbed()
       .setAuthor(
@@ -29,6 +34,11 @@ module.exports = class Command_template {
       .setTimestamp();
 
     return this._send(embedFalse, options);
+  }
+
+  msgFalseH(embed_text, options = {}) {
+    options.ephemeral = true;
+    this.msgFalse(embed_text, options);
   }
 
   _send(embed, options) {
