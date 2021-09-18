@@ -15,13 +15,11 @@ module.exports = function(args, interaction) {
       let options = command.options;
 
       if (options.permissions && options.permissions[0]) {
-        console.log("есть");
         let member_perms = options.permissions.filter(permission =>
           this.interaction.member.permissions.has(permission.toUpperCase())
         );
 
         if (!member_perms[0]) {
-          console.log("неут");
           if (options.custom_perms && options.custom_perms.includes("OWNER")) {
             if (this.config.owner !== interaction.member.id)
               return this.noPermissions();
@@ -29,11 +27,19 @@ module.exports = function(args, interaction) {
         }
       }
 
+      if (options.custom_perms && options.custom_perms[0]) {
+        if (
+          options.custom_perms.includes("OWNER") &&
+          !this.interaction.member.id !== this.config.owner
+        )
+          return this.noPermissions();
+      }
+
       if (
-        options.channels &&
-        !options.channels.includes(this.interaction.channelId)
+        !options.channels?.includes(this.interaction.channelId) &&
+        this.interaction.member.id !== this.config.owner
       )
-        return this.noPermissions();
+        return this.noChannel(options.channels);
 
       command.execute();
     }
@@ -41,6 +47,21 @@ module.exports = function(args, interaction) {
     noPermissions() {
       this.interaction.reply({
         content: "У вас недостаточно прав для использования этой команды!",
+        ephemeral: true
+      });
+    }
+
+    noChannel(channels = []) {
+      this.interaction.reply({
+        content:
+          "Вы используете команду в неположенном месте!\nДоступные для использования места:\n" +
+          channels
+            .map(channel_id => {
+              return (
+                this.interaction.guild.channels.cache.get(channel_id) || ""
+              );
+            })
+            .join(", "),
         ephemeral: true
       });
     }
