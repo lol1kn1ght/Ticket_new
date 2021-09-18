@@ -6,7 +6,13 @@ module.exports = function (args, interaction) {
     }
 
     async execute() {
-      console.log(this.interaction);
+      if (!this.interaction.isCommand()) return;
+
+      let Command = this.commands[this.interaction.commandName];
+
+      if (!Command) return;
+      let command = new Command(args, this.interaction);
+      command.execute();
     }
   }
 
