@@ -16,8 +16,8 @@ class Command extends Command_template {
   }
 
   async execute() {
-  this.db = this.mongo.db(this.interaction.guild.id);
-  
+  this.db = this.mongo.db("gtaEZ");
+
   }
 }
 
