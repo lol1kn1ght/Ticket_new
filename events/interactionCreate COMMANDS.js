@@ -38,6 +38,8 @@ module.exports = function(args, interaction) {
       }
 
       if (
+        options.channels &&
+        options.channels[0] &&
         !options.channels?.includes(this.interaction.channelId) &&
         this.interaction.member.id !== this.config.owner
       )
