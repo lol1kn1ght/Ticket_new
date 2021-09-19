@@ -74,10 +74,11 @@ class Bot_builder {
 
       try {
         let Command = require(`./commands/${command_file}`);
+        let command = new Command();
 
-        this.commands[command_name] = Command;
+        this.commands[command.options?.slash.name] = Command;
 
-        this.slash.push(new Command().options?.slash);
+        this.slash.push(command.options?.slash);
       } catch (e) {
         console.log(`Ошибка в команде ${command_name}:`);
         console.log(e);
