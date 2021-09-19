@@ -101,10 +101,14 @@ class Bot_builder {
       try {
         let event = require(`./events/${event_file}`);
 
-        this.bot.on(
-          event_name,
-          event.bind(null, {commands: this.commands, config: this.config, f: f})
-        );
+        let args = {
+          commands: this.commands,
+          config: this.config,
+          f: f,
+          mongo: this.mongo
+        };
+
+        this.bot.on(event_name, event.bind(null, args));
       } catch (e) {
         console.log(`Ошибка в евенте ${event_name}:`);
         console.log(e);
