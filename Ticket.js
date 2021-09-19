@@ -4,10 +4,12 @@ const {REST} = require("@discordjs/rest");
 const {Routes} = require("discord-api-types/v9");
 const config = require("./config/config.json");
 const {token} = require("./config/token.json");
-const Mongo = require("mongodb");
+const {MongoClient} = require("mongodb");
 const {promisify} = require("util");
 const f = require("./config/modules");
 const fs = require("fs");
+
+const connect_mongo = promisify(MongoClient.connect);
 const Client = new Discord.Client({
   intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS]
 });
@@ -15,7 +17,8 @@ const Client = new Discord.Client({
 class Bot_builder {
   constructor() {
     this.bot = Client;
-    this.Mongo = Mongo;
+    this.Mongo = MongoClient;
+    this.mongo;
     this.config = config;
     this.commands = {};
     this.slash = [];
@@ -23,7 +26,9 @@ class Bot_builder {
   }
 
   async _launch() {
-    let timer = this.timer();
+    let timer = this._timer();
+
+    await this._load_mongodb();
 
     await this._load_commands();
 
@@ -35,6 +40,25 @@ class Bot_builder {
     timer.stop();
   }
 
+  async _load_mongodb() {
+    try {
+      if (this.config.mongo.auth) {
+        let {user, pass, ip} = this.config.mongo;
+
+        this.mongo = await connect_mongo(
+          `mongodb://${user}${pass}${ip}:27017${dbauth}`
+        );
+        console.log(`Успешно подключен к базе данных: ${ip}:27017`);
+      } else {
+        this.mongo = await connect_mongo(`mongodb://localhost:27017`);
+        console.log(`Успешно подключен к базе данных: localhost:27017`);
+      }
+    } catch (e) {
+      console.log("Ошибка при соединении с базой данных:");
+      throw e;
+    }
+  }
+
   async _load_commands() {
     let readdir = promisify(fs.readdir);
 
@@ -43,7 +67,7 @@ class Bot_builder {
       command_file.endsWith(".js")
     );
 
-    let step = this.percent(commands.length, "Комманды");
+    let step = this._percent(commands.length, "Комманды");
 
     for (let command_file of commands) {
       let command_name = command_file.replace(".js", "");
@@ -68,7 +92,7 @@ class Bot_builder {
     let events_dir = await readdir("./events");
     let events = events_dir.filter(event_file => event_file.endsWith(".js"));
 
-    let step = this.percent(events.length, "Евенты");
+    let step = this._percent(events.length, "Евенты");
 
     for (let event_file of events) {
       let event_name = event_file.split(` `)[0];
@@ -92,7 +116,6 @@ class Bot_builder {
     let rest = new REST({version: "9"}).setToken(token);
 
     try {
-      console.log(this.slash);
       console.log("Начал загрузку /-команд.");
       await rest.put(
         Routes.applicationGuildCommands(this.bot.user.id, config.slash_guild),
@@ -108,7 +131,7 @@ class Bot_builder {
     }
   }
 
-  timer() {
+  _timer() {
     let P = ["\\", "|", "/", "-"];
     let x = 0;
     return {
@@ -124,7 +147,7 @@ class Bot_builder {
     };
   }
 
-  percent(amount = 1, module_name = "TEST") {
+  _percent(amount = 1, module_name = "TEST") {
     let current_step = 1;
 
     function next_step() {
