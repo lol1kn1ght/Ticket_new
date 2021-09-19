@@ -1,4 +1,4 @@
-const { Command_template } = require("../config/templates");
+const {Command_template} = require("../config/templates");
 
 class Command extends Command_template {
   constructor(args, interaction) {
@@ -6,18 +6,17 @@ class Command extends Command_template {
     Object.assign(this, args);
 
     this.options = {
-      permissions: [],
+      permissions: ["ADMINISTRATOR"],
       custom_perms: [],
       slash: {
-        name: "COMMAND_NAME",
-        description: "COMMAND_DESCRIPTION",
+        name: "панели",
+        description: "выводит список всех панелей"
       }
     };
   }
 
   async execute() {
-  this.db = this.mongo.db(this.interaction.guild.id);
-  
+    this.db = this.mongo.db("gtaEZ");
   }
 }
 

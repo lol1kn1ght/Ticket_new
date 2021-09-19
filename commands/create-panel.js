@@ -38,7 +38,7 @@ class Command extends Command_template {
   }
 
   async execute() {
-    this.db = this.mongo.db(this.interaction.guild.id);
+    this.db = this.mongo.db("gtaEZ");
 
     let panel_name = this.command_args.filter(
       option => option.name === "название"
