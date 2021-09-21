@@ -45,7 +45,13 @@ module.exports = function(args, interaction) {
       )
         return this.noChannel(options.channels);
 
-      command.execute();
+      try {
+        command.execute();
+      } catch (error) {
+        console.log(
+          `Произошло ошибка при исполнении команды ${this.interaction.commandName}`
+        );
+      }
     }
 
     noPermissions() {
