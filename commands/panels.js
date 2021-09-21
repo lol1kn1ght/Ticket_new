@@ -23,6 +23,7 @@ class Command extends Command_template {
 
     let embeds = await this.f.getpanels(panels_data, this.interaction);
 
+    if (!embeds[0]) return this.msgFalseH("Список панелей пуст.");
     this.f.pages({
       interaction: this.interaction,
       pages: embeds,
