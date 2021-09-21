@@ -78,10 +78,10 @@ class Command extends Command_template {
     let panels_db = this.db.collection("tickets_panels");
     let panels_data = await panels_db.find().toArray();
 
-    let panel_id = this.f.random(0, 10000);
+    let panel_id = this.f.random(0, 1000);
 
     while (panels_data.filter(panel => panel.panel_id === panel_id)[0]) {
-      panel_id = this.f.random(0, 10000);
+      panel_id = this.f.random(0, 1000);
     }
 
     try {
@@ -91,11 +91,13 @@ class Command extends Command_template {
       });
       this.panel_message = panel_message;
     } catch (e) {
-      this.msgFalseH("При формировании сообщения панели возникла ошибка!");
+      return this.msgFalseH(
+        `При отправки сообщения панели возникла ошибка!\nВозможно я не имею доступа к каналу ${panel_channel}!`
+      );
     }
     let new_panel = {
       panel_name: panel_name,
-      tickets_channel: panel_channel.id,
+      panel_channel: panel_channel.id,
       panel_message: this.panel_message.id,
       panel_id: panel_id,
       moderator_roles: [moderator_role.id]
