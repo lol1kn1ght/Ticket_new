@@ -1,7 +1,7 @@
 const Discord = require("discord.js");
 const config = require("../config/config");
 module.exports = (panels_data, interaction) => {
-  if (!panels_data[0]) return this.msgH("Список панелей пуст.");
+  if (!panels_data[0]) return [];
 
   let fields = [];
   let num = 1;
