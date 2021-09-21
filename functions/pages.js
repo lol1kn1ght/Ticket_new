@@ -11,6 +11,7 @@ module.exports = function(args) {
     constructor(args) {
       Object.assign(this, args);
       this.current_page = 0;
+      this.menu_message;
       this.prev_page = new Discord.MessageButton({
         type: "BUTTON",
         label: "Назад",
@@ -50,7 +51,7 @@ module.exports = function(args) {
         return interaction.message.id && this.filter(interaction);
       };
 
-      let collector = this.interaction.channel.createMessageComponentCollector({
+      let collector = this.menu.createMessageComponentCollector({
         filter,
         time: 180000
       });
@@ -109,6 +110,8 @@ module.exports = function(args) {
           default:
         }
       });
+
+      collector.on("end", () => this.interaction.editReply({components: []}));
     }
 
     async updateButton(button, row) {
