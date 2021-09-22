@@ -8,21 +8,21 @@ class Command extends Command_template {
 
     this.options = {
       permissions: [],
+      test: "Nzk3NDEzMTEwNDgyNzMxMDI5.X_mG1A.-rNaf05MUNNluy-vEPmICelkhiU",
       channels: [],
       custom_perms: ["OWNER"],
       slash: {
-        name: "shop-card",
+        name: "test",
         description: "Комадна для тестов [BOT_OWNER]"
       }
     };
   }
 
   async execute() {
-    this.db = this.mongo.db("gtaEZ");
+    let label = "1";
+    let methods_row = new Discord.MessageActionRow();
 
-    this.msg("DSD");
-    this.interaction.followUp("DSD");
-    this.interaction.followUp("DSD");
+    let stop = false;
   }
 }
 
