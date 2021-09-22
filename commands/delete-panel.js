@@ -79,7 +79,7 @@ class Command extends Command_template {
       select => select.member.id === this.interaction.member.id,
       {
         max: 1,
-        time: 5000,
+        time: 180000,
         componentType: "SELECT_MENU",
         maxComponents: 1
       }
@@ -91,8 +91,6 @@ class Command extends Command_template {
           "Вы не выбрали панель для удаления.\nСообщение удалится через **10** секунд."
         );
       }
-
-      select_message.delete({timeout: 10000});
     });
 
     collector.on("collect", async select => {
@@ -114,6 +112,7 @@ class Command extends Command_template {
       await select.update({components: undefined});
       await this.msgE("Начинаю процесс удаления сообщения:", {components: []});
       this.delete_panel(panel_id);
+      collector.stop();
     });
   }
 
