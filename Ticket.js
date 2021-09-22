@@ -11,7 +11,11 @@ const fs = require("fs");
 
 const connect_mongo = promisify(MongoClient.connect);
 const Client = new Discord.Client({
-  intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS]
+  intents: [
+    Intents.FLAGS.GUILDS,
+    Intents.FLAGS.GUILD_MEMBERS,
+    Intents.FLAGS.GUILD_MESSAGES
+  ]
 });
 
 class Bot_builder {
