@@ -8,7 +8,7 @@ class Command extends Command_template {
 
     this.options = {
       permissions: [],
-      test: "Nzk3NDEzMTEwNDgyNzMxMDI5.X_mG1A.-rNaf05MUNNluy-vEPmICelkhiU",
+
       channels: [],
       custom_perms: ["OWNER"],
       slash: {
@@ -19,10 +19,37 @@ class Command extends Command_template {
   }
 
   async execute() {
-    let label = "1";
-    let methods_row = new Discord.MessageActionRow();
+    // const {time} = require("@discordjs/builders");
+    // const date = new Date();
+    //
+    // const timeString = time(date.getTime() + 86400000);
+    // this.msg(`Сек будет в: ${timeString}`);
 
-    let stop = false;
+    let text = "1";
+    let num = 1;
+    setInterval(() => {
+      text = ++num + ``;
+      console.log(text.length);
+      console.log(text);
+      let menu = new Discord.MessageSelectMenu()
+        .setCustomId(text + "")
+        .setPlaceholder("Выберите панель из списка что бы удалить ее:")
+        .setMinValues(1)
+        .setMaxValues(1)
+        .addOptions([
+          {
+            label: text,
+            description: `Поменять категорию тикетов`,
+            value: `${53}_category`
+          }
+        ]);
+
+      let row = new Discord.MessageActionRow().addComponents(menu);
+
+      this.msg("sadasd", {
+        components: [row]
+      });
+    }, 500);
   }
 }
 
