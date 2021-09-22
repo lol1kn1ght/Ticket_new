@@ -21,7 +21,7 @@ module.exports = (panels_data, interaction) => {
         0}**\nЗакрытых тикетов: **${
         (panel.closed_tickets || []).concat(panel.deleted_tickets || []).length
       }**\n[Ссылка](https://discord.com/channels/${interaction.guild.id}/${
-        panel.tickets_channel
+        panel.panel_channel
       }/${panel.panel_message}) `
     };
 
