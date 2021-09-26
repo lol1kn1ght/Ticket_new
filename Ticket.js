@@ -100,7 +100,7 @@ class Bot_builder {
     let step = this._percent(events.length, "Евенты");
 
     for (let event_file of events) {
-      let event_name = event_file.split(` `)[0];
+      let event_name = event_file.split(` `)[0].replace(".js", "");
 
       try {
         let event = require(`./events/${event_file}`);
@@ -177,4 +177,4 @@ class Bot_builder {
   }
 }
 
-new Bot_builder();
+global.Bot = new Bot_builder();
