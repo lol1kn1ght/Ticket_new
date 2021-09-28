@@ -8,10 +8,10 @@ class Command extends Command_template {
 
     this.options = {
       permissions: ["ADMINISTRATOR"],
-      channels: ["707162375127826504"],
+      channels: [],
       custom_perms: [],
       slash: {
-        name: "создать-панель",
+        name: "create-panel",
         description: "Создать панель. [ADMINISTRATOR]",
         options: [
           {
