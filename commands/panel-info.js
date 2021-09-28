@@ -51,7 +51,7 @@ class Command extends Command_template {
       .addField("Название:", panel.panel_name, true)
       .addField(
         "Панель:",
-        `[Тык](https://discord.com/channels/${this.interaction.guild.id}/${panel.tickets_channel}/${panel.panel_message})`,
+        `[Тык](https://discord.com/channels/${this.interaction.guild.id}/${panel.panel_channel}/${panel.panel_message})`,
         true
       )
       .addField("Активные тикеты:", `${panel.actieve_tickets?.length || 0}`)
