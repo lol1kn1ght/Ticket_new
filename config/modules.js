@@ -1,5 +1,6 @@
 module.exports = {
   config: require("./config.json"),
   random: require("../functions/random"),
-  Profile: require("../functions/profile")
+  pages: require("../functions/pages"),
+  getpanels: require("../functions/getpanels")
 };
